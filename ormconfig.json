@@ -1,0 +1,13 @@
+{
+  "type": "postgres",
+  "port": 5432,
+  "host": "localhost",
+  "username": "easymarket",
+  "password": "easymarket",
+  "database": "easymarket",
+  "migrations": ["./src/settings/migrations/*.ts"],
+  "entities": ["./src/**/*.entities.ts"],
+  "cli": {
+    "migrationsDir": "./src/settings/migrations"
+  }
+}
