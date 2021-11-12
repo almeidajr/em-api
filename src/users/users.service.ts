@@ -85,4 +85,12 @@ export class UsersService {
   async remove(id: string): Promise<void> {
     await this.usersRepository.delete(id);
   }
+
+  async findByEmail(email: string): Promise<User | undefined> {
+    return await this.usersRepository.findOne({ email });
+  }
+
+  async checkPassword(user: User, password: string): Promise<boolean> {
+    return await this.hashService.compare(password, user.password);
+  }
 }
