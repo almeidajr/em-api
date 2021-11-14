@@ -11,9 +11,15 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('EasyMarket API')
     .setDescription('The EasyMarket API documentation')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document);
+  SwaggerModule.setup('api-docs', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+    customSiteTitle: 'EasyMarket API Docs',
+  });
 
   await app.listen(3333);
 }

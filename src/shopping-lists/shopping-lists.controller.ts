@@ -9,7 +9,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AuthenticatedRequest } from '../auth/types/authenticated-request.type';
@@ -18,6 +18,7 @@ import { UpdateShoppingListDto } from './dto/update-shopping-list.dto';
 import { ShoppingListsService } from './shopping-lists.service';
 
 @ApiTags('shopping-lists')
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('shopping-lists')
 export class ShoppingListsController {
