@@ -1,27 +1,52 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
-import { CreateNfceDto } from './dto/create-nfce.dto';
-import { UpdateNfceDto } from './dto/update-nfce.dto';
+import { Nfce } from './entities/nfce.entity';
 
 @Injectable()
 export class NfcesService {
-  create(createNfceDto: CreateNfceDto) {
-    return 'This action adds a new nfce';
+  constructor(
+    @InjectRepository(Nfce)
+    private readonly nfcesRepository: Repository<Nfce>,
+  ) {}
+
+  async findAll(userId: string): Promise<Nfce[]> {
+    return await this.nfcesRepository.find({ userId });
   }
 
-  findAll() {
-    return `This action returns all nfces`;
+  async findOne(userId: string, id: string): Promise<Nfce> {
+    const nfce = await this.nfcesRepository.findOne(id, {
+      relations: [
+        'issuer',
+        'operationDestination',
+        'finalCostumer',
+        'buyerPresence',
+        'paymentMethod',
+        'purchases',
+      ],
+    });
+    if (!nfce) {
+      throw new NotFoundException(`Nfce with ID "${id}" not found`);
+    }
+    if (userId !== nfce.userId) {
+      throw new ForbiddenException("You cannot see another user's data");
+    }
+    return nfce;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} nfce`;
-  }
-
-  update(id: number, updateNfceDto: UpdateNfceDto) {
-    return `This action updates a #${id} nfce`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} nfce`;
+  async remove(userId: string, id: string): Promise<void> {
+    const nfce = await this.nfcesRepository.findOne(id);
+    if (!nfce) {
+      throw new NotFoundException(`Nfce with ID "${id}" not found`);
+    }
+    if (userId !== nfce.userId) {
+      throw new ForbiddenException("You cannot delete another user's data");
+    }
+    await this.nfcesRepository.remove(nfce);
   }
 }

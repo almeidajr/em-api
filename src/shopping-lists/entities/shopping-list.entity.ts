@@ -20,8 +20,8 @@ export class ShoppingList {
   @Column()
   name: string;
 
-  @Column()
-  comments: string;
+  @Column({ nullable: true })
+  comments?: string;
 
   @CreateDateColumn()
   createdAt: Date;
