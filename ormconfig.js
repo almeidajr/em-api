@@ -1,4 +1,5 @@
-const entryFolder = process.env.NODE_ENV === 'production' ? './dist' : './src';
+const isProduction = process.env.NODE_ENV === 'production';
+const entryFolder = isProduction ? './dist' : './src';
 
 module.exports = {
   type: 'postgres',
@@ -9,4 +10,11 @@ module.exports = {
   cli: {
     migrationsDir: entryFolder + '/settings/migrations',
   },
+  extra: isProduction
+    ? {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      }
+    : null,
 };
