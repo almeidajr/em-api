@@ -2,7 +2,7 @@
   "name": "em-api",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Jose Rogerio Almeida Junior <almeidajr.vr@gmail.com>",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -88,5 +88,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
