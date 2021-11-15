@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
+import { defaultPort } from './settings/constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,6 @@ async function bootstrap() {
     customSiteTitle: 'EasyMarket API Docs',
   });
 
-  await app.listen(3333);
+  await app.listen(process.env.PORT || defaultPort);
 }
 bootstrap();
