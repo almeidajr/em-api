@@ -8,6 +8,9 @@ import { defaultPort } from './settings/constants';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  app.enableCors({
+    origin: process.env.WEB_APP_URL,
+  });
 
   const config = new DocumentBuilder()
     .setTitle('EasyMarket API')

@@ -35,6 +35,7 @@ import { UsersModule } from './users/users.module';
         HASH_SALT: Joi.number().required(),
         DATABASE_URL: Joi.string().required(),
         SCRAPER_URL: Joi.string().uri().required(),
+        WEB_APP_URL: Joi.string().uri().required(),
       }),
     }),
     TypeOrmModule.forRootAsync({
