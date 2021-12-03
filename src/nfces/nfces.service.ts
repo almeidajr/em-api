@@ -16,7 +16,10 @@ export class NfcesService {
   ) {}
 
   async findAll(userId: string): Promise<Nfce[]> {
-    return await this.nfcesRepository.find({ userId });
+    return await this.nfcesRepository.find({
+      where: { userId },
+      relations: ['issuer'],
+    });
   }
 
   async findOne(userId: string, id: string): Promise<Nfce> {
